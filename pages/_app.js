@@ -7,8 +7,8 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-      <link rel="icon" href="/images/todo_favi.png" sizes="any" />
-        <title>Todo list</title>
+      <link rel="icon" href="/images/todoicon.png" sizes="any" />
+        <title>Todo List</title>
       </Head>
       <Navbar />
       <Component {...pageProps} />
