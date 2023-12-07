@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { auth } from "@/pages/api/auth/firebase";
+import { auth } from "@/firebase";
 import { useRouter } from "next/router";
+
 const Navbar = () => {
   const router = useRouter();
   const [isclicked, setIsclicked] = useState(false);
   const [username, setUsername] = useState("");
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -14,8 +16,9 @@ const Navbar = () => {
       }
     });
   });
-  const handlelogout = () => {
-    auth.signOut();
+
+  const handlelogout = async () => {
+    await auth.signOut();
     setIsclicked(!isclicked);
     setUsername("");
     router.push(!username && "/login");
