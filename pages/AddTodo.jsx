@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
-import { auth, db } from "../firebase";
-import { doc ,collection, setDoc } from "firebase/firestore";
+import { auth, db, useruid } from "../firebase";
+import { doc, collection, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-
+import { v4 as uuid } from "uuid";
 const AddNewTodo = () => {
+  const uniqueid = uuid();
+  console.log(uniqueid);
   const router = useRouter();
   // let useruid
   // const auth = getAuth()
@@ -23,18 +25,24 @@ const AddNewTodo = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
 
-    if (auth.currentUser) {
+    if (useruid) {
       if (!gettododata.date || !gettododata.discription) {
         setErrormsg("please enter all the fields");
       } else {
         console.log(gettododata);
-        const useruid = auth.currentUser?.uid;
         setErrormsg("");
         const usercollection = collection(db, "users");
         const userdoc = doc(usercollection, useruid);
-        await setDoc(userdoc, { gettododata }).catch((error) =>
+
+        const usertodo = collection(userdoc, "todo list data");
+        const usertodoDoc = doc(usertodo, uniqueid);
+        await setDoc(usertodoDoc, { gettododata }).catch((error) =>
           setErrormsg(error.message)
         );
+        setGettododata({
+          date: "",
+          discription: "",
+        });
       }
     }
   };
@@ -56,6 +64,7 @@ const AddNewTodo = () => {
               type="text"
               id="full-name"
               name="full-name"
+              value={gettododata.date}
               className="w-full bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               onChange={(e) =>
                 setGettododata((prev) => ({ ...prev, date: e.target.value }))
@@ -68,6 +77,7 @@ const AddNewTodo = () => {
             </label>
             <textarea
               rows="4"
+              value={gettododata.discription}
               className="w-full bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-indigo-900 rounded border border-gray-600 focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-5 transition-colors duration-200 ease-in-out"
               onChange={(e) =>
                 setGettododata((prev) => ({
@@ -80,7 +90,7 @@ const AddNewTodo = () => {
           <button
             type="button"
             className="text-white bg-indigo-500 border-0 py-2 px-8 w-fit m-auto focus:outline-none hover:bg-indigo-600 rounded text-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={!auth.currentUser ? true : false}
+            disabled={!useruid ? true : false}
             onClick={handlesubmit}
           >
             Add Todo
