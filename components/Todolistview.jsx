@@ -6,13 +6,15 @@ import { IconButton } from "@mui/material";
 import { doc, collection, deleteDoc } from "firebase/firestore";
 const Todolistview = ({date, discription, id}) => {
   const useruid = auth.currentUser?.uid
+  const usercollection = collection(db, "users");
+  const userDocs = doc(usercollection, useruid);
+  const usertodolist = collection(userDocs, "todo list data");
+ 
  const toremovetodolist =  async (id) => {
-    const usercollection = collection(db, "users");
-    const userDocs = doc(usercollection, useruid);
-    const usertodolist = collection(userDocs, "todo list data");
     const deletetodo  = doc(usertodolist, id)
       await deleteDoc(deletetodo)
   }
+  
   
   return (
     <div className="flex border-2 rounded-lg border-gray-800 px-5 m-3 sm:flex-row hover:border-indigo-500 ">

@@ -5,18 +5,21 @@ import { auth, db } from "../firebase";
 import { doc, collection, setDoc, Timestamp } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { v4 as uuid } from "uuid";
+import { useSelector } from "react-redux";
 const AddNewTodo = () => {
   const created = Timestamp.fromDate(new Date())
   const uniqueid = uuid();
   console.log(uniqueid);
   const router = useRouter();
-  let useruid
-  const auth = getAuth()
-  if (auth.currentUser){
-   useruid = auth.currentUser.uid
-    console.log(useruid)
-    // console.log(auth.currentUser.displayName)
-  }
+  // let useruid
+  // const auth = getAuth()
+  // if (auth.currentUser){
+  //  useruid = auth.currentUser.uid
+  //   console.log(useruid)
+  //   // console.log(auth.currentUser.displayName)
+  // }
+  const useruid = useSelector((state)=> state.authdata.useruid)
+  console.log(useruid)
 
   const [gettododata, setGettododata] = useState({
     date: "",

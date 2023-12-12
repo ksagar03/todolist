@@ -25,8 +25,8 @@ const Login = () => {
       .catch((error) => setErrormsg(error.message));
   };
   return (
-    <section className="text-gray-400 bg-gray-900 body-font bg-[url('/images/2.jpg')] bg-no-repeat bg-cover bg-center">
-      <div className="container px-5 py-24 mx-auto flex flex-wrap justify-center items-center">
+    <section  className="text-gray-400 bg-gray-900 body-font bg-[url('/images/2.jpg')] bg-no-repeat bg-cover bg-center">
+      <div style={{height: "100dvh"}} className="container px-5 py-24 mx-auto flex flex-wrap justify-center items-center">
         <div className="bg-gray-800 bg-opacity-50 rounded-lg p-10 flex flex-col w-1/3 mt-10 md:mt-0 resize-none">
           <h2 className="text-white font-bold text-center text-2xl title-font mb-5">
             Login
