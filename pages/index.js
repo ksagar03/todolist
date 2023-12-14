@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { db, auth } from "@/firebase";
 import { getDocs, collection, doc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/todofunction/authFun";
+import { setUser } from "@/Redux/store/todofunction/authFun";
 
 export default function Home() {
   const [gettodolist, setGettodolist] = useState([]);
@@ -15,7 +15,7 @@ export default function Home() {
   const dispatch = useDispatch();
 
   // let useruid = auth.currentUser ? auth.currentUser?.uid : null;
-  const useruid = useSelector((state)=> state.authdata.useruid) 
+  let useruid = useSelector((state) => state.authdata?.useruid);
 
   useEffect(() => {
     //  this useeffect has been used to excute the below code only one time as i don't want to request the data base when this page renders
@@ -24,7 +24,7 @@ export default function Home() {
         dispatch(
           setUser({
             user: user,
-            userid: user.uid,
+            useruid: user.uid,
             username: user.displayName,
           })
         );
@@ -38,7 +38,7 @@ export default function Home() {
         );
       }
     });
-    
+
     const tofetchuserdata = async () => {
       console.log(useruid);
       if (useruid) {
@@ -64,11 +64,11 @@ export default function Home() {
       }
     };
     tofetchuserdata();
-  }, [dispatch]);
+  }, [auth.currentUser?.uid]);
 
   console.log(gettodolist);
-  console.log(errormsg);
-  
+  // console.log(errormsg);
+
   return (
     <section className="text-gray-400 body-font bg-[url('/images/144565.jpg')] bg-no-repeat bg-fixed bg-cover">
       {/* <Video  className=" min-w-full min-h-full absolute object-cover" src={second}>

@@ -24,7 +24,7 @@ const Navbar = () => {
     router.push(!username && "/login");
   };
   return (
-    <div>
+    <div key={username}>
       <header className="text-gray-400 bg-slate-800 body-font">
         <div className="container mx-auto flex flex-wrap p-2 flex-col md:flex-row items-center">
           <span className="flex title-font font-medium items-center text-white mb-2 md:mb-0">

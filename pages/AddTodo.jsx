@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
 import { useState } from "react";
-import { getAuth } from "firebase/auth";
-import { auth, db } from "../firebase";
-import { doc, collection, setDoc, Timestamp } from "firebase/firestore";
-import { useRouter } from "next/router";
-import { v4 as uuid } from "uuid";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addTodo } from "@/Redux/store/todofunction/TodoFun";
 const AddNewTodo = () => {
-  const created = Timestamp.fromDate(new Date())
-  const uniqueid = uuid();
-  console.log(uniqueid);
-  const router = useRouter();
+  const dispatch = useDispatch();
+  // const created = Timestamp.fromDate(new Date());
+  // const uniqueid = uuid();
+  // console.log(uniqueid);
+  // const router = useRouter();
   // let useruid
   // const auth = getAuth()
   // if (auth.currentUser){
@@ -18,13 +14,11 @@ const AddNewTodo = () => {
   //   console.log(useruid)
   //   // console.log(auth.currentUser.displayName)
   // }
-  const useruid = useSelector((state)=> state.authdata.useruid)
-  console.log(useruid)
+  const useruid = useSelector((state) => state.authdata.useruid);
 
   const [gettododata, setGettododata] = useState({
     date: "",
     discription: "",
-    created
   });
   const [errormsg, setErrormsg] = useState("");
   const handlesubmit = async (e) => {
@@ -34,16 +28,17 @@ const AddNewTodo = () => {
       if (!gettododata.date || !gettododata.discription) {
         setErrormsg("please enter all the fields");
       } else {
-        console.log(gettododata);
+        // console.log(gettododata);
         setErrormsg("");
-        const usercollection = collection(db, "users");
-        const userdoc = doc(usercollection, useruid);
+        // const usercollection = collection(db, "users");
+        // const userdoc = doc(usercollection, useruid);
 
-        const usertodo = collection(userdoc, "todo list data");
-        const usertodoDoc = doc(usertodo, uniqueid);
-        await setDoc(usertodoDoc, { gettododata }).catch((error) =>
-          setErrormsg(error.message)
-        );
+        // const usertodo = collection(userdoc, "todo list data");
+        // const usertodoDoc = doc(usertodo, uniqueid);
+        // await setDoc(usertodoDoc, { gettododata }).catch((error) =>
+        //   setErrormsg(error.message)
+        // );
+        dispatch(addTodo(gettododata));
         setGettododata({
           date: "",
           discription: "",
@@ -52,7 +47,7 @@ const AddNewTodo = () => {
     }
   };
   return (
-    <section className="text-gray-400 bg-gray-900 body-font ">
+    <section className="text-gray-400 bg-gray-900 body-font " key={useruid}>
       <div className="container px-5 py-24 mx-auto flex flex-wrap justify-center items-center">
         <div className="bg-gray-800 bg-opacity-50 rounded-lg p-10 flex flex-col w-1/2 mt-10 md:mt-0">
           <h2 className="text-white text-lg font-large title-font mb-5">

@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import Link from "next/link";
 import { Provider } from "react-redux";
-import {store} from "@/store/store";
+import {store} from "@/Redux/store/store";
 
 export default function App({ Component, pageProps }) {
   return (
